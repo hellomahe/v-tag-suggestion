@@ -1,33 +1,40 @@
 <template>
   <div>
   <ul class="tag-with-autosuggestion el-input el-input--small" @click="focusInput">
-    <li class="tag-name" v-for="(tag,index) in tags">
+  <transition-group name="list-complete" tag="p">
+    <li class="tag-name list-complete-item" v-for="(tag,index) in tags" :key="tag.name">
       {{tag.name}}
-      <i class="el-icon-close" @click="remove(index)"></i>
+      <span class="tag-remove" @click="remove(index)">x</span>
     </li>
-    <li class="tag-input">
+    <li class="tag-input list-complete-item" key="tag-input">
       <input type="text" ref="input" class="tag-input-inner" name="tag" v-model="name" @keyup.enter.prevent="checkAndAdd" autocomplete="off" autofocus="on" @keyup="validateKeyStroke" @keydown="select" @keyup.delete="removeLastItem">
       <div class="tag-suggestions-list" v-if="listSuggestions.length">
         <!-- <div class="suggestions-wrapper"> -->
+
           <li v-for="(tag,index) in listSuggestions" :class="highlight==index?'sugessted-tags sugessted-tags--highlight ' : 'sugessted-tags'" @click="add(tag.name)" ref="results" v-if="tag.name">
               {{tag.name}}
           </li>
         <!-- </div> -->
       </div>
     </li>
-    <li class="a-lb show-suggestion-btn" @click="showAll =!showAll ">{{showAll ? 'Click To Show suggestions': 'Click To Show suggestions'}}
+  </transition-group>
+    <li class="a-lb show-suggestion-btn" @click="showAll=!showAll ">{{showAll ? 'Hide Tags': 'All Tags'}}
     </li>
   </ul>
+  <transition name="fade">
   <div v-if="showAll">
     <ul class="all-suggesions tag-with-autosuggestion el-input el-input--small">
-       <li class="tag-name " v-for="(tag,index) in top" @click="addFromSuggestion(tag.name, $event)">
+       <transition-group name="list-complete">
+       <li class="tag-name list-complete-item" v-for="(tag,index) in top" @click="addFromSuggestion(tag.name, $event)" :key="index">
         {{tag.name}}
        </li>
-       <li class="a-lb show-suggestion-btn" @click="filter=!filter" v-if="top.length>8">
+     </transition-group>
+       <li class="a-lb show-suggestion-btn" @click="filter=!filter" v-if="top.length>7">
          {{suggestionsLen}}
        </li>
     </ul>
   </div>
+</transition>
 </div>
 </template>
 
@@ -69,7 +76,7 @@
     },
     computed:{
       suggestionsLen(){
-      return this.filter ? `Click To see ${this.suggestions.length-8} More Tags`:'Click To hide Tags'
+      return this.filter ? `${this.suggestions.length-8} More Tags`:'Hide Tags'
       },
       top(){
         return this.filter ? this.suggestions.slice(0,8) : this.suggestions
@@ -237,6 +244,8 @@
   width: 100%;
   border-radius: 4px;
   padding-bottom: 1rem;
+  text-align: left;
+  position: relative;
 }
 .tag-with-autosuggestion .a-lb {
   cursor: pointer;
@@ -246,9 +255,15 @@
   width: auto;
   display: inline-block;
   margin: 10px;
-  padding: 0rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
+}
+.tag-with-autosuggestion .tag-name .tag-remove { 
+color: inherit;
+font-weight: inherit;
+opacity:0.8;
+font-size:1.3em;
 }
 .tag-with-autosuggestion .tag-name:first-letter {
   text-transform: uppercase;
@@ -264,6 +279,7 @@
   border: none;
   outline: none;
   box-shadow: none;
+  background: transparent;
 }
 .tag-with-autosuggestion .tag-input .tag-suggestions-list {
   border-radius: 3px;
@@ -300,6 +316,12 @@
   perspective: 1000px;
   color: red;
 }
+.a-lb{
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+}
 
 @keyframes shake {
   10%, 90% {
@@ -315,5 +337,27 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+
+.list-complete-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to{
+  opacity: 0;
+  transform: translateY(20px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+
+
 
 </style>
