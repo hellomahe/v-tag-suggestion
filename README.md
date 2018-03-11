@@ -126,3 +126,9 @@ a {
 }
 </style>
 ```
+
+
+#TODO
+- Dynamic length for auto-suggestions as a prop
+- Separators as a prop
+-
