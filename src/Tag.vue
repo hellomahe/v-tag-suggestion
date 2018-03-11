@@ -18,7 +18,7 @@
       </div>
     </li>
   </transition-group>
-    <li class="a-lb show-suggestion-btn" @click="showAll=!showAll ">{{showAll ? 'Hide Tags': 'All Tags'}}
+    <li class="a-lb show-suggestion-btn" v-if="suggestions.length" @click="showAll=!showAll ">{{showAll ? 'Hide Tags': 'All Tags'}}
     </li>
   </ul>
   <transition name="fade">
@@ -45,7 +45,19 @@
     prop: 'tags',
     event: 'change'
   },
-  props:['tags','suggestions'],
+  props:{
+    tags:{
+      type:Array,
+      required:true
+    },
+    suggestions:{
+      type:Array,
+      required:false,
+      default:() => {
+        return[]
+      }
+    }
+  },
     data(){
       return{
         name:'',
