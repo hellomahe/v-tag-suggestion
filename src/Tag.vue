@@ -318,7 +318,6 @@ font-size:1.3em;
 
 .all-suggesions .tag-name {
   background: #E0E0E0;
-  border-radius: 25px;
 }
 
 .shake {
