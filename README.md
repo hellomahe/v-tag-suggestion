@@ -1,6 +1,6 @@
 # v-tag-suggestion
 
-
+A simple tag component with typeahead ⌨️
 
 ![](http://res.cloudinary.com/mahe/image/upload/v1520916559/v-tag-suggestion.gif)
 
