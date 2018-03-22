@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tag :tags="tags" :suggestions="suggestions" @removeItem="removeTag" @addItem="addTag"/>
+    <tag :tags="tags" :suggestions="suggestions" :suggestionLength="suggestionLength" @removeItem="removeTag" @addItem="addTag"/>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import Tag from './Tag.vue';
 
   export default{
     name:'v-tag-suggestion',
-    props:['tags','suggestions'],
+    props:['tags','suggestions','suggestionLength'],
     components:{
       Tag
     },

@@ -56,6 +56,11 @@
       default:() => {
         return[]
       }
+    },
+    suggestionLength:{
+      type:Number,
+      required:false,
+      default:10
     }
   },
     data(){
@@ -88,10 +93,14 @@
     },
     computed:{
       suggestionsLen(){
-      return this.filter ? `${this.suggestions.length-8} More Tags`:'Hide Tags'
+        if(this.suggestionLength > this.suggestions.length-1) {
+          return ''
+        }
+        let length = this.suggestions.length-this.suggestionLength
+      return (this.filter && length > 0) ? `${length} More Tags`:'Hide Tags'
       },
       top(){
-        return this.filter ? this.suggestions.slice(0,8) : this.suggestions
+        return this.filter ? this.suggestions.slice(0,this.suggestionLength) : this.suggestions
       },
       listSuggestions(){  
         if(this.name.trim()==''){
@@ -318,7 +327,6 @@ font-size:1.3em;
 
 .all-suggesions .tag-name {
   background: #E0E0E0;
-  border-radius: 25px;
 }
 
 .shake {
