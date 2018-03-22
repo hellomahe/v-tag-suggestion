@@ -1,6 +1,6 @@
 {
   "name": "v-tag-suggestion",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Vue.js component that gives auto suggestions while typing tag",
   "main": "dist/v-tag-suggestion.js",
   "scripts": {

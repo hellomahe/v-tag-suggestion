@@ -39,6 +39,11 @@ components: {
       default:() => {
         return[]
       }
+    },
+    suggestionLength:{
+      type:Number,
+      required:false,
+      default:10
     }
   }
   ```
@@ -49,7 +54,7 @@ components: {
 <template>
   <div>
 <tag
- :tags="tags" :suggestions="suggestion" />
+ :tags="tags" :suggestions="suggestion" :suggestionLength="6"/>
   </div>
 </template>
 
